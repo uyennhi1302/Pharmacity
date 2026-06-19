@@ -5,7 +5,14 @@ const cors = require("cors");
 require("dotenv").config();
 
 const app = express();
-
+app.get("/debug-db", (req, res) => {
+  res.json({
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
+    user: process.env.DB_USER,
+    database: process.env.DB_NAME
+  });
+});
 // Middleware
 app.use(cors());
 app.use(express.json());

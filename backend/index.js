@@ -14,8 +14,12 @@ app.use(express.json());
 app.get("/products", (req, res) => {
     db.query("SELECT * FROM products", (err, results) => {
         if (err) {
-            return res.status(500).json({ message: "Lỗi lấy sản phẩm" });
+            console.error("DB Error:", err);
+            return res.status(500).json({
+                message: err.message
+            });
         }
+
         res.json(results);
     });
 });

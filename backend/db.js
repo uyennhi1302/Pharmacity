@@ -13,6 +13,8 @@ db.connect((err) => {
     console.error("Database error:", err);
   } else {
     console.log("MySQL Connected");
+    console.log("HOST:", process.env.MYSQLHOST);
+    console.log("PORT:", process.env.MYSQLPORT);
   }
 });
 

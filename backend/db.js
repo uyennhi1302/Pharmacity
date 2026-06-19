@@ -14,6 +14,9 @@ db.connect((err) => {
         return;
     }
     console.log("✅ Connected to MySQL");
+    console.log("HOST:", process.env.MYSQLHOST);
+    console.log("PORT:", process.env.MYSQLPORT);
+    console.log("DB:", process.env.MYSQLDATABASE);
 });
 
 module.exports = db;

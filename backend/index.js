@@ -1,135 +1,41 @@
-
 const express = require("express");
-const db = require("./db");
 const cors = require("cors");
-require("dotenv").config();
 
 const app = express();
-app.get("/db-test", (req, res) => {
-    db.query("SELECT 1", (err, result) => {
-        if (err) {
-            return res.status(500).json({
-                error: err.message
-            });
-        }
 
-        res.json(result);
-    });
-});
-app.get("/debug-db", (req, res) => {
-  res.json({
-    host: process.env.DB_HOST,
-    port: process.env.DB_PORT,
-    user: process.env.DB_USER,
-    database: process.env.DB_NAME
-  });
-});
-// Middleware
 app.use(cors());
 app.use(express.json());
 
-// 🏥 Lấy tất cả sản phẩm
+const products = [
+  {
+    id: 1,
+    name: "Paracetamol 500mg",
+    price: 25000,
+    description: "Giảm đau, hạ sốt",
+    image: "https://via.placeholder.com/200"
+  },
+  {
+    id: 2,
+    name: "Amoxicillin 500mg",
+    price: 45000,
+    description: "Kháng sinh",
+    image: "https://via.placeholder.com/200"
+  },
+  {
+    id: 3,
+    name: "Vitamin C 1000mg",
+    price: 120000,
+    description: "Bổ sung vitamin",
+    image: "https://via.placeholder.com/200"
+  }
+];
+
 app.get("/products", (req, res) => {
-    db.query("SELECT * FROM products", (err, results) => {
-        if (err) {
-            console.error("DB Error:", err);
-            return res.status(500).json({
-                message: err.message
-            });
-        }
-
-        res.json(results);
-    });
-});
-
-// 📝 Đăng ký
-app.post("/register", (req, res) => {
-    const { first_name, last_name, email, password, phone, address, role } = req.body;
-
-    // Kiểm tra thông tin
-    if (!first_name || !last_name || !email || !password) {
-        return res.status(400).json({ message: "Vui lòng nhập đầy đủ thông tin!" });
-    }
-
-    // Kiểm tra email đã tồn tại
-    db.query("SELECT * FROM users WHERE email = ?", [email], (err, results) => {
-        if (err) {
-            return res.status(500).json({ message: "Lỗi server" });
-        }
-
-        if (results.length > 0) {
-            return res.status(400).json({ message: "Email đã được đăng ký!" });
-        }
-
-        // Thêm user mới
-        const userRole = role === "admin" ? "admin" : "customer";
-        db.query(
-            "INSERT INTO users (first_name, last_name, email, password, phone, address, role) VALUES (?, ?, ?, ?, ?, ?, ?)",
-            [first_name, last_name, email, password, phone || "", address || "", userRole],
-            (err, result) => {
-                if (err) {
-                    return res.status(500).json({ message: "Lỗi đăng ký" });
-                }
-                res.json({ message: "Đăng ký thành công!", userId: result.insertId, role: userRole });
-            }
-        );
-    });
-});
-
-// 🔐 Đăng nhập
-app.post("/login", (req, res) => {
-    const { email, password } = req.body;
-
-    if (!email || !password) {
-        return res.status(400).json({ message: "Vui lòng nhập email và mật khẩu!" });
-    }
-
-    db.query("SELECT * FROM users WHERE email = ? AND password = ?", [email, password], (err, results) => {
-        if (err) {
-            return res.status(500).json({ message: "Lỗi server" });
-        }
-
-        if (results.length === 0) {
-            return res.status(401).json({ message: "Email hoặc mật khẩu không đúng!" });
-        }
-
-        res.json({ message: "Đăng nhập thành công!", user: results[0] });
-    });
-});
-
-// ➕ Thêm sản phẩm mới (chỉ admin)
-app.post("/add-product", (req, res) => {
-    const { name, price, description, image, userId } = req.body;
-
-    if (!name || !price) {
-        return res.status(400).json({ message: "Vui lòng nhập tên và giá!" });
-    }
-
-    // Kiểm tra role admin
-    db.query("SELECT role FROM users WHERE id = ?", [userId], (err, results) => {
-        if (err || !results || results.length === 0) {
-            return res.status(401).json({ message: "Không tìm thấy user!" });
-        }
-
-        if (results[0].role !== "admin") {
-            return res.status(403).json({ message: "Chỉ admin mới có thể thêm sản phẩm!" });
-        }
-
-        db.query(
-            "INSERT INTO products (name, price, description, image) VALUES (?, ?, ?, ?)",
-            [name, price, description || "", image || ""],
-            (err, result) => {
-                if (err) {
-                    return res.status(500).json({ message: "Lỗi thêm sản phẩm" });
-                }
-                res.json({ message: "Thêm sản phẩm thành công!", productId: result.insertId });
-            }
-        );
-    });
+  res.json(products);
 });
 
 const PORT = process.env.PORT || 5001;
 
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });

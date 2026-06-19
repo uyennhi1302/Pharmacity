@@ -5,6 +5,17 @@ const cors = require("cors");
 require("dotenv").config();
 
 const app = express();
+app.get("/db-test", (req, res) => {
+    db.query("SELECT 1", (err, result) => {
+        if (err) {
+            return res.status(500).json({
+                error: err.message
+            });
+        }
+
+        res.json(result);
+    });
+});
 app.get("/debug-db", (req, res) => {
   res.json({
     host: process.env.DB_HOST,

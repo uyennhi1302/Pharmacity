@@ -26,7 +26,7 @@ export default function Products() {
 
   const fetchProducts = async () => {
     try {
-      const res = await fetch("http://localhost:5001/products");
+      const res = await fetch("https://pharmacity.onrender.com/products");
       const data = await res.json();
       setProducts(data);
     } catch (err) {
@@ -57,7 +57,9 @@ export default function Products() {
 
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:5001/add-product", {
+      const API_URL = import.meta.env.VITE_API_URL;
+
+      const res = await fetch(`${API_URL}/products`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

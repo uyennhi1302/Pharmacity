@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.4.2 (Python 3.14.3 on win32)" generated="2026-06-20T22:33:07.432752" rpa="false" schemaversion="5">
+<suite id="s1" name="RegisterTests" source="G:\react-node-mysql-shop\Automation\tests\RegisterTests.robot">
+<test id="s1-t1" name="Register Success" line="20">
+<kw name="Open Browser To Application" owner="common_keywords" type="SETUP">
+<kw name="Open Browser" owner="SeleniumLibrary">
+<msg time="2026-06-20T22:33:07.711036" level="FAIL">Variable '${BASE_URL}' not found.</msg>
+<arg>${BASE_URL}</arg>
+<arg>chrome</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<status status="FAIL" start="2026-06-20T22:33:07.710663" elapsed="0.000409">Variable '${BASE_URL}' not found.</status>
+</kw>
+<kw name="Maximize Browser Window" owner="SeleniumLibrary">
+<doc>Maximizes current browser window.</doc>
+<status status="NOT RUN" start="2026-06-20T22:33:07.711175" elapsed="0.000016"/>
+</kw>
+<status status="FAIL" start="2026-06-20T22:33:07.710108" elapsed="0.001166">Variable '${BASE_URL}' not found.</status>
+</kw>
+<kw name="Close Browser Session" owner="common_keywords" type="TEARDOWN">
+<kw name="Close Browser" owner="SeleniumLibrary">
+<doc>Closes the current browser.</doc>
+<status status="PASS" start="2026-06-20T22:33:07.711884" elapsed="0.000119"/>
+</kw>
+<status status="PASS" start="2026-06-20T22:33:07.711621" elapsed="0.000449"/>
+</kw>
+<status status="FAIL" start="2026-06-20T22:33:07.709326" elapsed="0.002896">Setup failed:
+Variable '${BASE_URL}' not found.</status>
+</test>
+<status status="FAIL" start="2026-06-20T22:33:07.433980" elapsed="0.278863"/>
+</suite>
+<statistics>
+<total>
+<stat pass="0" fail="1" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat name="RegisterTests" id="s1" pass="0" fail="1" skip="0">RegisterTests</stat>
+</suite>
+</statistics>
+<errors>
+<msg time="2026-06-20T22:33:07.708512" level="ERROR">Error in file 'G:\react-node-mysql-shop\Automation\tests\RegisterTests.robot' on line 9: Processing variable file 'G:\react-node-mysql-shop\Automation\resources\environment.variables.yml' failed: Using YAML variable files requires PyYAML module to be installed.Typically you can install it by running `pip install pyyaml`.</msg>
+</errors>
+</robot>
